@@ -48,7 +48,12 @@ def _db_url() -> str:
 DB_URL = _db_url()
 IS_SQLITE = DB_URL.startswith("sqlite")
 
-_connect_args = {"check_same_thread": False} if IS_SQLITE else {}
+if IS_SQLITE:
+    _connect_args = {"check_same_thread": False}
+else:
+    # Supabase Connection Pooling (transaction mode) не поддерживает
+    # server-side prepared statements — отключаем их в psycopg.
+    _connect_args = {"prepare_threshold": None}
 engine = create_engine(
     DB_URL,
     poolclass=NullPool,
