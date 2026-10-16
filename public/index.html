@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Мои задачи</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <main class="app">
+    <header class="app__header">
+      <div>
+        <h1>Мои задачи</h1>
+        <p class="app__subtitle" id="who">Загрузка…</p>
+      </div>
+      <button id="logout" class="btn btn--ghost" type="button">Выйти</button>
+    </header>
+
+    <form id="todo-form" class="todo-form" autocomplete="off">
+      <input
+        id="todo-input"
+        class="todo-form__input"
+        type="text"
+        placeholder="Что нужно сделать?"
+        maxlength="500"
+        required
+      />
+      <button class="todo-form__submit" type="submit">Добавить</button>
+    </form>
+
+    <p id="error" class="error" hidden></p>
+
+    <ul id="todo-list" class="todo-list"></ul>
+
+    <p id="empty" class="empty" hidden>Задач пока нет.</p>
+
+    <footer class="app__footer">
+      <span id="counter" class="counter">Всего: 0 · Выполнено: 0</span>
+    </footer>
+  </main>
+
+  <script src="/app.js"></script>
+</body>
+</html>

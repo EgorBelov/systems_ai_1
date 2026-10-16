@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Вход</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <main class="app app--narrow">
+    <div class="card">
+      <h1 class="card__title">Вход</h1>
+      <p class="card__subtitle">Войдите, чтобы увидеть свои задачи</p>
+
+      <form id="auth-form" class="auth-form" data-endpoint="/api/auth/login" data-redirect="/">
+        <label class="field">
+          <span class="field__label">Email</span>
+          <input class="field__input" type="email" name="email" autocomplete="email" required />
+        </label>
+        <label class="field">
+          <span class="field__label">Пароль</span>
+          <input class="field__input" type="password" name="password" autocomplete="current-password" required />
+        </label>
+
+        <p id="auth-error" class="error" hidden></p>
+
+        <button class="btn btn--primary btn--block" type="submit">Войти</button>
+      </form>
+
+      <p class="card__switch">
+        Нет аккаунта? <a href="/register.html">Зарегистрироваться</a>
+      </p>
+    </div>
+  </main>
+
+  <script src="/auth.js"></script>
+</body>
+</html>

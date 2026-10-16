@@ -1,0 +1,294 @@
+:root {
+  --bg: #0f1220;
+  --surface: #1a1f35;
+  --surface-2: #232a45;
+  --text: #e7ebff;
+  --muted: #8b93b8;
+  --accent: #5b7cfa;
+  --accent-hover: #6d8bff;
+  --danger: #ef5f6b;
+  --done: #4ad295;
+  --radius: 12px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: radial-gradient(1200px 600px at 50% -10%, #1c2340 0%, var(--bg) 60%);
+  color: var(--text);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  display: flex;
+  justify-content: center;
+  padding: 48px 16px;
+}
+
+.app {
+  width: 100%;
+  max-width: 560px;
+}
+
+.app--narrow {
+  max-width: 400px;
+  align-self: center;
+}
+
+.app__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.app__header h1 {
+  margin: 0;
+  font-size: 28px;
+  letter-spacing: 0.2px;
+}
+
+.app__subtitle {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.todo-form {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.todo-form__input {
+  flex: 1;
+  padding: 12px 14px;
+  border-radius: var(--radius);
+  border: 1px solid #2c3559;
+  background: var(--surface);
+  color: var(--text);
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.todo-form__input:focus {
+  border-color: var(--accent);
+}
+
+.todo-form__submit {
+  padding: 12px 18px;
+  border: none;
+  border-radius: var(--radius);
+  background: var(--accent);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.todo-form__submit:hover {
+  background: var(--accent-hover);
+}
+
+.todo-form__submit:active {
+  transform: translateY(1px);
+}
+
+.error {
+  margin: 0 0 16px;
+  padding: 10px 14px;
+  border-radius: var(--radius);
+  background: rgba(239, 95, 107, 0.12);
+  color: var(--danger);
+  font-size: 14px;
+}
+
+.todo-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.todo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid #262e4d;
+  transition: border-color 0.15s ease, opacity 0.15s ease;
+}
+
+.todo:hover {
+  border-color: #35406b;
+}
+
+.todo--done {
+  opacity: 0.6;
+}
+
+.todo__checkbox {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 auto;
+  accent-color: var(--done);
+  cursor: pointer;
+}
+
+.todo__title {
+  flex: 1;
+  word-break: break-word;
+  font-size: 15px;
+}
+
+.todo--done .todo__title {
+  text-decoration: line-through;
+  color: var(--muted);
+}
+
+.todo__delete {
+  flex: 0 0 auto;
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.todo__delete:hover {
+  background: rgba(239, 95, 107, 0.15);
+  color: var(--danger);
+}
+
+.empty {
+  text-align: center;
+  color: var(--muted);
+  font-size: 14px;
+  padding: 24px 0;
+}
+
+.app__footer {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid #262e4d;
+}
+
+.counter {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid #262e4d;
+  border-radius: 16px;
+  padding: 28px 24px;
+}
+
+.card__title {
+  margin: 0;
+  font-size: 24px;
+}
+
+.card__subtitle {
+  margin: 6px 0 22px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.card__switch {
+  margin: 20px 0 0;
+  text-align: center;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.card__switch a {
+  color: var(--accent-hover);
+  text-decoration: none;
+}
+
+.card__switch a:hover {
+  text-decoration: underline;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field__label {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.field__input {
+  padding: 12px 14px;
+  border-radius: var(--radius);
+  border: 1px solid #2c3559;
+  background: var(--surface-2);
+  color: var(--text);
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.field__input:focus {
+  border-color: var(--accent);
+}
+
+.btn {
+  padding: 12px 18px;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.btn--primary {
+  background: var(--accent);
+  color: #fff;
+}
+
+.btn--primary:hover {
+  background: var(--accent-hover);
+}
+
+.btn--block {
+  width: 100%;
+}
+
+.btn--ghost {
+  background: transparent;
+  border: 1px solid #2c3559;
+  color: var(--muted);
+  padding: 8px 14px;
+  font-size: 14px;
+}
+
+.btn--ghost:hover {
+  border-color: var(--danger);
+  color: var(--danger);
+}
