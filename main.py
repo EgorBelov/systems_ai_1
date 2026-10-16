@@ -38,6 +38,12 @@ except Exception:
 def _db_url() -> str:
     url = (os.environ.get("DATABASE_URL") or "").strip()
     if not url:
+        if IS_VERCEL:
+            # На Vercel /var/task доступен только для чтения: SQLite туда писать
+            # нельзя, иначе падает старт функции. Берём writable /tmp.
+            # Данные не переживут перезапуск — в продакшене задайте DATABASE_URL.
+            print("WARNING: DATABASE_URL не задан, использую временный SQLite в /tmp")
+            return "sqlite:////tmp/todos.db"
         return "sqlite:///" + str(BASE_DIR / "todos.db")
     if url.startswith("postgres://"):
         return url.replace("postgres://", "postgresql+psycopg://", 1)
