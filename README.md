@@ -1,14 +1,13 @@
 # Todo — FastAPI + Supabase, деплой на Vercel
 
-Список задач с регистрацией и авторизацией. Бэкенд на FastAPI, страницы — статический HTML,
-который раздаёт тот же FastAPI. Данные — в Postgres (Supabase), сессии — на сервере.
+Список задач с регистрацией и авторизацией. Бэкенд на FastAPI, страницы — статический HTML.
+Данные — в Postgres (Supabase), сессии — на сервере.
 
 ## Что внутри
 
 ```
 .
-├── api/
-│   └── index.py        # FastAPI: auth + todos + раздача public/
+├── main.py             # FastAPI: auth + todos (entrypoint для Vercel)
 ├── public/             # статические страницы и ассеты
 │   ├── index.html      # список задач (требует входа)
 │   ├── login.html
@@ -20,6 +19,9 @@
 ├── vercel.json
 └── .env.example
 ```
+
+Локально `main.py` сам раздаёт `public/`. На Vercel статику из `public/`
+отдаёт CDN платформы, поэтому приложение её там не монтирует (переменная `VERCEL`).
 
 ## Модель авторизации
 
@@ -38,7 +40,7 @@ cp .env.example .env        # либо оставьте DATABASE_URL пусты�
 # для локального http отключите secure-cookie:
 #   COOKIE_SECURE=0
 pip install -r requirements.txt
-uvicorn api.index:app --reload
+uvicorn main:app --reload
 ```
 
 Открыть http://127.0.0.1:8000
@@ -59,13 +61,15 @@ uvicorn api.index:app --reload
    | `DATABASE_URL`  | строка подключения Supabase (pooler, 6543)|
    | `COOKIE_SECURE` | `1`                                        |
 
-4. Deploy. Vercel выполнит `api/index.py` как ASGI-функцию (`@vercel/python`),
-   а `public/**` попадёт в бандл через `includeFiles` — статику раздаёт FastAPI.
+4. Deploy. Vercel сам определяет FastAPI по `requirements.txt` и запускает
+   `main.py` (переменная `app`) как Vercel Function. Статику из `public/`
+   отдаёт CDN платформы (root-URL), API обслуживает функция.
 
-`vercel.json` направляет все пути на функцию:
+Никаких `builds`/`routes` в конфиге не нужно — framework preset подхватывается
+автоматически. В `vercel.json` задан только `maxDuration` для функции:
 
 ```json
-{ "routes": [{ "src": "/(.*)", "dest": "api/index.py" }] }
+{ "functions": { "main.py": { "maxDuration": 30 } } }
 ```
 
 ## API

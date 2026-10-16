@@ -24,12 +24,13 @@ from sqlalchemy.orm import (
 from sqlalchemy.pool import NullPool
 
 BASE_DIR = Path(__file__).resolve().parent
-PROJECT_DIR = BASE_DIR.parent
+STATIC_DIR = BASE_DIR / "public"
+IS_VERCEL = bool(os.environ.get("VERCEL"))
 
 try:
     from dotenv import load_dotenv
 
-    load_dotenv(PROJECT_DIR / ".env")
+    load_dotenv(BASE_DIR / ".env")
 except Exception:
     pass
 
@@ -37,7 +38,7 @@ except Exception:
 def _db_url() -> str:
     url = (os.environ.get("DATABASE_URL") or "").strip()
     if not url:
-        return "sqlite:///" + str(PROJECT_DIR / "todos.db")
+        return "sqlite:///" + str(BASE_DIR / "todos.db")
     if url.startswith("postgres://"):
         return url.replace("postgres://", "postgresql+psycopg://", 1)
     if url.startswith("postgresql://"):
@@ -350,16 +351,15 @@ def delete_todo(
 
 
 def _find_static_dir() -> Optional[Path]:
-    for candidate in (
-        PROJECT_DIR / "public",
-        BASE_DIR / "public",
-        Path.cwd() / "public",
-    ):
+    for candidate in (STATIC_DIR, Path.cwd() / "public"):
         if candidate.is_dir():
             return candidate
     return None
 
 
-_static_dir = _find_static_dir()
-if _static_dir is not None:
-    app.mount("/", StaticFiles(directory=str(_static_dir), html=True), name="static")
+# На Vercel статику из public/ раздаёт CDN платформы, монтировать её нельзя.
+# Локально (uvicorn) отдаём её сами.
+if not IS_VERCEL:
+    _static_dir = _find_static_dir()
+    if _static_dir is not None:
+        app.mount("/", StaticFiles(directory=str(_static_dir), html=True), name="static")
